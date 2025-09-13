@@ -19,5 +19,9 @@
             "src": "/api/v1/(.*)",
             "dest": "/index.js"
         }
-    ]
+    ],
+
+    "git": {
+        "deploymentEnabled": false
+    }
 }
