@@ -112,3 +112,28 @@ export const Logout = async (req, res) => {
     return res.send({ message: error.message, success: false });
   }
 };
+
+export const getAuthStatus = async (req, res) => {
+  try {
+    // The user ID was attached to `req` by the AuthApi middleware
+    const userId = req.userid;
+
+    // Find the user in the database but exclude their password from the result
+    const user = await userModel.findById(userId).select("-password");
+
+    // If for some reason the user isn't in the DB, send an error
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found." });
+    }
+
+    // If user is found, send a success response with the user's data ✅
+    res.status(200).json({
+      success: true,
+      user: user, // This contains user info like name, email, etc.
+    });
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Internal server error." });
+  }
+};

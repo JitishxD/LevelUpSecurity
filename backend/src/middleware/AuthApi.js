@@ -3,19 +3,29 @@ import jwt from "jsonwebtoken";
 export const AuthApi = async (req, res, next) => {
   try {
     const token = req.cookies.token;
-    // console.log(token)
 
+    // If no token is found in cookies
     if (!token) {
-      return res.send("token is not found ");
+      return res.status(401).json({ 
+        success: false, 
+        message: "Unauthorized: No token provided." 
+      });
     }
 
-    const decodetokendata = await jwt.verify(token, process.env.TOKEN_SECRET);
-    // console.log(decodetokendata);
+    // Verify the token
+    const decodedTokenData = jwt.verify(token, process.env.TOKEN_SECRET);
 
-    req.userid = decodetokendata.id;
+    // Attach the user's ID to the request object for the next function to use
+    req.userid = decodedTokenData.id;
 
+    // If verification is successful, proceed to the next function (the controller)
     next();
   } catch (error) {
+    // This catches errors from jwt.verify (e.g., invalid signature, expired token)
     console.log(error);
+    return res.status(401).json({ 
+      success: false, 
+      message: "Unauthorized: Invalid or expired token." 
+    });
   }
 };
