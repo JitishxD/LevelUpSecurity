@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react"; // ADDED: useEffect
-import { Link, useParams, useNavigate } from "react-router-dom"; // ADDED: useParams, useNavigate
+import { useState, useEffect } from "react";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import ParticleBackground from "../Utils/ParticleBackground";
 import { LockIcon, GoogleIcon } from "../assets/icons";
 
@@ -12,19 +12,19 @@ export default function AuthPage() {
 
   // This effect syncs the component's state with the URL
   useEffect(() => {
-    if (mode === 'signup') {
+    if (mode === "signup") {
       setIsLoginView(false);
-    } else if (mode === 'login') {
+    } else if (mode === "login") {
       setIsLoginView(true);
     } else {
       // If the URL has an invalid mode (e.g., /auth/anything-else),
       // redirect to the default login view.
-      navigate('/auth/login');
+      navigate("/auth/login");
     }
   }, [mode, navigate]); // This code runs every time the 'mode' in the URL changes
 
   const toggleView = () => {
-    const newMode = isLoginView ? 'signup' : 'login';
+    const newMode = isLoginView ? "signup" : "login";
     navigate(`/auth/${newMode}`);
   };
 
@@ -39,15 +39,13 @@ export default function AuthPage() {
       <div className="w-full max-w-md bg-gray-800/60 rounded-2xl shadow-2xl p-6 sm:p-8 backdrop-blur-lg border border-gray-700/50 z-10">
         <div className="flex flex-col items-center mb-6">
           <div className="bg-gray-700 p-2 sm:p-3 rounded-full mb-4">
-            {/* <LockIcon className="w-7 h-7 sm:w-8 sm:h-8 text-sky-400" /> */}
-            <svg className="w-7 h-7 sm:w-8 sm:h-8 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+            <LockIcon className="w-7 h-7 sm:w-8 sm:h-8 text-sky-400" />
           </div>
           <h2 className="text-2xl sm:text-3xl font-bold text-white text-center">{isLoginView ? "Welcome Back" : "Create Account"}</h2>
           <p className="text-gray-400 mt-1 text-center">{isLoginView ? "Sign in to continue your journey" : "Get started with your new account"}</p>
         </div>
 
         <form className="space-y-4">
-          {/* Additional fields for sign up */}
           {!isLoginView && (
             <div>
               <label className="text-sm font-medium text-gray-400" htmlFor="name">
@@ -117,7 +115,7 @@ export default function AuthPage() {
 
         <div className="flex items-center space-x-4">
           <button className="flex-1 flex items-center justify-center p-3 bg-gray-700/50 hover:bg-gray-700 rounded-lg border border-gray-600 transition">
-             <GoogleIcon />
+            <GoogleIcon />
           </button>
         </div>
 

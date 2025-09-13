@@ -79,7 +79,9 @@ export default function App() {
             <button onClick={toggleTheme} className="p-2 rounded-full text-gray-400 hover:text-white hover:bg-white/10 focus:outline-none transition-colors">
               {theme === "dark" ? <SunIcon className="w-6 h-6" /> : <MoonIcon className="w-6 h-6" />}
             </button>
-            <button className="hidden md:block text-white hover:text-sky-400 transition-colors"><Link to="/auth/login">Log In</Link></button>
+            <button className="hidden md:block text-white hover:text-sky-400 transition-colors">
+              <Link to="/auth/login">Log In</Link>
+            </button>
             <button className="bg-sky-500 hover:bg-sky-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105">
               <Link to="/auth/signup">Sign Up</Link>
             </button>
@@ -111,10 +113,10 @@ export default function App() {
                 }`}
               >
                 <button className="bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 w-full sm:w-auto px-6 md:px-8 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105">
-                  <Link to="/auth/signup">Start Now</Link>                  
+                  <Link to="/auth/signup">Start Now</Link>
                 </button>
                 <button className="bg-white/10 hover:bg-white/20 text-white font-bold py-3 w-full sm:w-auto px-6 md:px-8 rounded-lg border border-white/20 backdrop-blur-sm transition-all duration-300">
-                  Learn More
+                  <Link to="/learnmore">Learn More</Link>
                 </button>
               </div>
             </div>
