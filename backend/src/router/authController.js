@@ -2,6 +2,8 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import userModel from "../models/User.js";
 
+const THREE_DAYS_IN_MS = 3 * 24 * 60 * 60 * 1000;
+
 export const Login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -30,7 +32,8 @@ export const Login = async (req, res) => {
 
     const token = await jwt.sign(
       { id: checkexistuser._id },
-      process.env.TOKEN_SECRET
+      process.env.TOKEN_SECRET,
+      { expiresIn: '3d' }
     );
 
     if (!token) {
@@ -40,6 +43,7 @@ export const Login = async (req, res) => {
     return res
       .cookie("token", token, {
         httpOnly: true,
+        maxAge: THREE_DAYS_IN_MS
       })
       .send({ message: "user login successfully", success: true });
   } catch (error) {
@@ -66,7 +70,6 @@ export const Signup = async (req, res) => {
     }
 
     const salt = await bcrypt.genSalt(10);
-
     const hashpassword = await bcrypt.hash(password, salt);
 
     const newuser = new userModel({
@@ -79,10 +82,9 @@ export const Signup = async (req, res) => {
 
     const token = await jwt.sign(
       { _id: newuser._id },
-      process.env.TOKEN_SECRET
+      process.env.TOKEN_SECRET,
+      { expiresIn: '3d' }
     );
-
-    console.log(token);
 
     if (!token) {
       return res.send({ message: "token is not created", success: false });
@@ -91,6 +93,7 @@ export const Signup = async (req, res) => {
     return res
       .cookie("token", token, {
         httpOnly: true,
+        maxAge: THREE_DAYS_IN_MS
       })
       .send({ message: "user created successfully", success: true });
   } catch (error) {
@@ -102,7 +105,7 @@ export const Signup = async (req, res) => {
 export const Logout = async (req, res) => {
   try {
     return res
-      .cookie("token", "", { expires: new Date(0), httpOnly: true }) 
+      .cookie("token", "", { expires: new Date(0), httpOnly: true })
       .send({
         message: "Logged out successfully",
         success: true,
@@ -115,18 +118,13 @@ export const Logout = async (req, res) => {
 
 export const getAuthStatus = async (req, res) => {
   try {
-    // The user ID was attached to `req` by the AuthApi middleware
     const userId = req.userid;
-
-    // Find the user in the database but exclude their password from the result
     const user = await userModel.findById(userId).select("-password");
 
-    // If for some reason the user isn't in the DB, send an error
     if (!user) {
       return res.status(404).json({ success: false, message: "User not found." });
     }
 
-    // If user is found, send a success response with the user's data ✅
     res.status(200).json({
       success: true,
       user: user, // This contains user info like name, email, etc.
