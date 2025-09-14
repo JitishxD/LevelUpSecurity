@@ -4,6 +4,23 @@ import userModel from "../models/User.js";
 
 const THREE_DAYS_IN_MS = 3 * 24 * 60 * 60 * 1000;
 
+// --- Helper function for cookie options ---
+// This makes it easier to manage options for production vs. development
+const getCookieOptions = () => {
+  const isProduction = process.env.NODE_ENV === 'production';
+  return {
+    httpOnly: true,
+    maxAge: THREE_DAYS_IN_MS,
+    // The 'secure' flag tells the browser to only send the cookie over HTTPS for production
+    secure: isProduction,
+    // The 'sameSite' flag is a security measure to prevent CSRF attacks.
+    // 'None' is required for cross-site cookies (when frontend and backend are on different domains).
+    // 'secure: true' is mandatory when using sameSite: 'None'.
+    sameSite: isProduction ? 'None' : 'Lax',
+  };
+};
+
+
 export const Login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -41,10 +58,7 @@ export const Login = async (req, res) => {
     }
 
     return res
-      .cookie("token", token, {
-        httpOnly: true,
-        maxAge: THREE_DAYS_IN_MS
-      })
+      .cookie("token", token, getCookieOptions())
       .send({ message: "user login successfully", success: true });
   } catch (error) {
     console.log(error);
@@ -91,10 +105,7 @@ export const Signup = async (req, res) => {
     }
 
     return res
-      .cookie("token", token, {
-        httpOnly: true,
-        maxAge: THREE_DAYS_IN_MS
-      })
+      .cookie("token", token, getCookieOptions())
       .send({ message: "user created successfully", success: true });
   } catch (error) {
     console.log(error);
@@ -104,8 +115,10 @@ export const Signup = async (req, res) => {
 
 export const Logout = async (req, res) => {
   try {
+    // To properly clear the production cookie, we need to pass the same secure/sameSite options.
+    const cookieOptions = getCookieOptions();
     return res
-      .cookie("token", "", { expires: new Date(0), httpOnly: true })
+      .cookie("token", "", { ...cookieOptions, expires: new Date(0) })
       .send({
         message: "Logged out successfully",
         success: true,
