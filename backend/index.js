@@ -35,8 +35,18 @@ app.get("/home", AuthApi, (req, res) => {
   return res.send("This is my home page");
 });
 
-connectToMongo();
+const startServer = async () => {
+  try {
+    await connectToMongo();
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+    app.listen(PORT, () => {
+      console.log(`Server is running on http://localhost:${PORT}`);
+    });
+
+  } catch (error) {
+    console.error("Failed to start server:", error);
+    process.exit(1);
+  }
+};
+
+startServer();

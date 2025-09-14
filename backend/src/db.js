@@ -1,17 +1,19 @@
 import mongoose from "mongoose";
 
-// Connect to MongoDB
-const connectToMongo = () => {
-  // prettier-ignore
-  mongoose.connect(process.env.MONGODB_URI).then(() => {
-        console.log('Connected to MongoDB Atlas');
-    }).catch((error) => {
-        console.error('Error connecting to MongoDB Atlas:', error.message);
+const connectToMongo = async () => {
+  try {
+    await mongoose.connect(process.env.MONGODB_URI);
+
+    console.log("Successfully connected to MongoDB Atlas!");
+
+    mongoose.connection.on('error', err => {
+        console.error('MongoDB connection error after initial connection:', err);
     });
 
-  const db = mongoose.connection;
-  db.on("error", console.error.bind(console, "MongoDB connection error:"));
-  db.once("open", () => console.log("Connected to MongoDB"));
+  } catch (error) {
+    console.error("Fatal error connecting to MongoDB:", error.message);
+    process.exit(1);
+  }
 };
 
 export default connectToMongo;
