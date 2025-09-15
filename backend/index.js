@@ -12,6 +12,7 @@ const PORT = process.env.PORT || 3000;
 
 let corsOptions = {
   origin: 'https://jitishxd.github.io',
+  // origin: 'http://localhost:5173',
   credentials: true, 
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
