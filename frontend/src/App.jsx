@@ -6,6 +6,10 @@ import LearnMorePage from "./Components/LearnMore";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import Home from "./Components/Home";
 
+import DeveloperPage from "./Components/Content/DeveloperPage";
+import MarketerPage from "./Components/Content/Marketer";
+import StudentPage from "./Components/Content/Student";
+
 import { AuthProvider } from "./contexts/AuthContext";
 
 function App() {
@@ -19,6 +23,9 @@ function App() {
 
           <Route element={<ProtectedRoute/>}>
             <Route path="/home" element={<Home/>} />
+            <Route path="/home/developer" element={<DeveloperPage/>} />
+            <Route path="/home/marketer" element={<MarketerPage/>} />
+            <Route path="/home/student" element={<StudentPage/>} />
           </Route>
         </Routes>
       </AuthProvider>

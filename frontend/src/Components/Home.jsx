@@ -43,7 +43,7 @@ const Home = () => {
 
                 <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
                   {/* Developer Card */}
-                  <Link to="/" className="group relative block h-80 rounded-xl overflow-hidden border border-gray-800 shadow-lg">
+                  <Link to="/home/developer" className="group relative block h-80 rounded-xl overflow-hidden border border-gray-800 shadow-lg">
                     <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/30 to-blue-500/30"></div>
                     {/* Cover Content (Visible by default) */}
                     <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-900/50 p-6 transition-opacity duration-500 group-hover:opacity-0">
@@ -60,7 +60,7 @@ const Home = () => {
                   </Link>
 
                   {/* Marketer Card */}
-                  <Link to="/" className="group relative block h-80 rounded-xl overflow-hidden border border-gray-800 shadow-lg">
+                  <Link to="/home/marketer" className="group relative block h-80 rounded-xl overflow-hidden border border-gray-800 shadow-lg">
                     <div className="absolute inset-0 bg-gradient-to-br from-purple-500/30 to-pink-500/30"></div>
                     {/* Cover Content */}
                     <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-900/50 p-6 transition-opacity duration-500 group-hover:opacity-0">
@@ -77,7 +77,7 @@ const Home = () => {
                   </Link>
 
                   {/* Student Card */}
-                  <Link to="/" className="group relative block h-80 rounded-xl overflow-hidden border border-gray-800 shadow-lg">
+                  <Link to="/home/student" className="group relative block h-80 rounded-xl overflow-hidden border border-gray-800 shadow-lg">
                     <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/30 to-teal-500/30"></div>
                     {/* Cover Content */}
                     <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-900/50 p-6 transition-opacity duration-500 group-hover:opacity-0">
