@@ -163,7 +163,7 @@ export default function AuthPage() {
           <div>
             <button
               type="submit"
-              className="w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg disabled:bg-sky-800 disabled:cursor-not-allowed"
+              className="cursor-pointer w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg disabled:bg-sky-800 disabled:cursor-not-allowed"
               disabled={isLoading}
             >
               {isLoading ? "Processing..." : isLoginView ? "Sign In" : "Create Account"}

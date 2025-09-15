@@ -28,7 +28,7 @@ const Home = () => {
               </Link>
               <button
                 onClick={handleLogout}
-                className="bg-sky-500/10 hover:bg-sky-500/20 text-sky-400 font-semibold py-2 px-4 border border-sky-500/30 rounded-lg transition-colors text-sm"
+                className="cursor-pointer bg-sky-500/10 hover:bg-sky-500/20 text-sky-400 font-semibold py-2 px-4 border border-sky-500/30 rounded-lg transition-colors text-sm"
               >
                 Sign Out
               </button>

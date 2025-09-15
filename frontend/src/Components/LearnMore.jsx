@@ -64,9 +64,15 @@ export default function LearnMorePage() {
           <div className="container mx-auto max-w-5xl text-center">
             <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">The Flaw in One-Size-Fits-All</h2>
             <p className="text-lg text-gray-400 max-w-3xl mx-auto">
-              Most cybersecurity training is a necessary evil—a "tick-the-box" exercise that fails to account for the single most important variable: your employees. A marketing
-              professional and an IT admin face vastly different threats, yet receive the same generic content. This leads to disengagement, "security fatigue," and ultimately, a
-              weaker defense.
+              Imagine a company giving the same car maintenance training to both a professional mechanic and a salesperson who just drives the car. 
+              The mechanic needs advanced technical details, while the salesperson just needs to know how to check the oil and tire pressure. 
+              Giving them the same generic course is a waste of time for both.
+            </p>
+            <br />
+            <p className="text-lg text-gray-400 max-w-3xl mx-auto">
+              This is exactly what happens with most cybersecurity training. 
+              A person in marketing faces different online threats (like social media scams) than a system administrator (who deals with network attacks). 
+              Yet, they are both forced to sit through the same basic, generic training videos
             </p>
           </div>
         </section>

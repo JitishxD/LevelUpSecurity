@@ -113,10 +113,10 @@ export default function App() {
                 }`}
               >
                 <button className="bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 w-full sm:w-auto px-6 md:px-8 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105">
-                  <Link to="/auth/signup">Start Now</Link>
+                  <Link className="cursor-pointer" to="/auth/signup">Start Now</Link>
                 </button>
                 <button className="bg-white/10 hover:bg-white/20 text-white font-bold py-3 w-full sm:w-auto px-6 md:px-8 rounded-lg border border-white/20 backdrop-blur-sm transition-all duration-300">
-                  <Link to="/learnmore">Learn More</Link>
+                  <Link className="cursor-pointer" to="/learnmore">Learn More</Link>
                 </button>
               </div>
             </div>
