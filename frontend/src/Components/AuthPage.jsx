@@ -124,6 +124,7 @@ export default function AuthPage() {
               placeholder="you@example.com"
               value={formData.email}
               onChange={handleChange}
+              autoComplete="username"
               required
             />
           </div>
@@ -138,6 +139,7 @@ export default function AuthPage() {
               placeholder="••••••••"
               value={formData.password}
               onChange={handleChange}
+              autoComplete={isLoginView ? "current-password" : "new-password"}
               required
             />
           </div>
