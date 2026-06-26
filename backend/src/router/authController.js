@@ -26,7 +26,7 @@ export const Login = async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res.send({
+      return res.status(400).json({
         message: "please fill all the required field",
         success: false,
       });
@@ -35,7 +35,7 @@ export const Login = async (req, res) => {
     const checkexistuser = await userModel.findOne({ email });
 
     if (!checkexistuser) {
-      return res.send({ message: "user does not exist", success: false });
+      return res.status(400).json({ message: "user does not exist", success: false });
     }
 
     const checkpassword = await bcrypt.compare(
@@ -44,7 +44,7 @@ export const Login = async (req, res) => {
     );
 
     if (!checkpassword) {
-      return res.send({ message: "password is incorrect", success: false });
+      return res.status(401).json({ message: "password is incorrect", success: false });
     }
 
     const token = await jwt.sign(
@@ -54,15 +54,15 @@ export const Login = async (req, res) => {
     );
 
     if (!token) {
-      return res.send({ message: "token is not created", success: false });
+      return res.status(500).json({ message: "token is not created", success: false });
     }
 
     return res
       .cookie("token", token, getCookieOptions())
-      .send({ message: "user login successfully", success: true });
+      .status(200).json({ message: "user login successfully", success: true });
   } catch (error) {
     console.log(error);
-    return res.send({ message: error.message, success: false });
+    return res.status(500).json({ message: error.message, success: false });
   }
 };
 
@@ -71,7 +71,7 @@ export const Signup = async (req, res) => {
     const { name, email, password } = req.body;
 
     if (!email || !name || !password) {
-      return res.send({
+      return res.status(400).json({
         message: "please fill all the required field",
         success: false,
       });
@@ -80,7 +80,7 @@ export const Signup = async (req, res) => {
     const checkexistuser = await userModel.findOne({ email });
 
     if (checkexistuser) {
-      return res.send({ message: "user already exist", success: false });
+      return res.status(400).json({ message: "user already exist", success: false });
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -95,21 +95,21 @@ export const Signup = async (req, res) => {
     await newuser.save();
 
     const token = await jwt.sign(
-      { _id: newuser._id },
+      { id: newuser._id },
       process.env.TOKEN_SECRET,
       { expiresIn: '3d' }
     );
 
     if (!token) {
-      return res.send({ message: "token is not created", success: false });
+      return res.status(500).json({ message: "token is not created", success: false });
     }
 
     return res
       .cookie("token", token, getCookieOptions())
-      .send({ message: "user created successfully", success: true });
+      .status(201).json({ message: "user created successfully", success: true });
   } catch (error) {
     console.log(error);
-    return res.send({ message: error.message, success: false });
+    return res.status(500).json({ message: error.message, success: false });
   }
 };
 
@@ -125,7 +125,7 @@ export const Logout = async (req, res) => {
       });
   } catch (error) {
     console.log(error);
-    return res.send({ message: error.message, success: false });
+    return res.status(500).json({ message: error.message, success: false });
   }
 };
 

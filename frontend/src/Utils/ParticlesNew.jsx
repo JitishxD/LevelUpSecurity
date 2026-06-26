@@ -66,17 +66,15 @@ const ParticleNew = () => {
     init();
     animate();
 
-    window.addEventListener('resize', () => {
+    const handleResize = () => {
         resizeCanvas();
         init();
-    });
+    };
+    window.addEventListener('resize', handleResize);
 
     return () => {
       cancelAnimationFrame(animationFrameId);
-      window.removeEventListener('resize', () => {
-          resizeCanvas();
-          init();
-      });
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
