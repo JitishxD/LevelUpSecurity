@@ -43,23 +43,58 @@ const loginUser = async (email, password) => {
   }
 };
 
-const checkAuthStatus = async () => {
+// Silently request new access + refresh tokens using the refresh token cookie.
+// This runs automatically when the access token (15 min) expires.
+const refreshToken = async () => {
   try {
-    // This endpoint should be protected on your backend.
-    // The browser will automatically send the HttpOnly cookie.
-    const res = await fetch(`${url}/api/v1/getauthstatus`, {
-      method: "GET",
-      // Important: include credentials to send cookies
-      credentials: "include", 
+    const res = await fetch(`${url}/api/v1/refresh`, {
+      method: "POST",
+      credentials: "include", // Sends the refreshToken cookie
     });
 
-    // If the cookie is invalid or expired, the backend should return a 401 Unauthorized
     if (!res.ok) {
       return { success: false };
     }
-    
-    // If the cookie is valid, the backend returns user data
-    return res.json(); // Assuming it returns { success: true, user: {...} }
+
+    return res.json();
+  } catch (err) {
+    console.error(err);
+    return { success: false };
+  }
+};
+
+const checkAuthStatus = async () => {
+  try {
+    // Step 1: Try verifying with the current access token
+    const res = await fetch(`${url}/api/v1/getauthstatus`, {
+      method: "GET",
+      credentials: "include", 
+    });
+
+    // If access token is valid, return the user data
+    if (res.ok) {
+      return res.json();
+    }
+
+    // Step 2: Access token expired (401) — silently try refreshing
+    if (res.status === 401) {
+      const refreshResult = await refreshToken();
+
+      if (refreshResult.success) {
+        // New access token was set as a cookie — retry the original request
+        const retryRes = await fetch(`${url}/api/v1/getauthstatus`, {
+          method: "GET",
+          credentials: "include",
+        });
+
+        if (retryRes.ok) {
+          return retryRes.json();
+        }
+      }
+    }
+
+    // Both access and refresh tokens are invalid — user must log in again
+    return { success: false };
   } catch (err) {
     console.error(err);
     return { success: false };

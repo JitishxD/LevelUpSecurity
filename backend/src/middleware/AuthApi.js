@@ -4,7 +4,7 @@ export const AuthApi = async (req, res, next) => {
   try {
     const token = req.cookies.token;
 
-    // If no token is found in cookies
+    // If no access token is found in cookies
     if (!token) {
       return res.status(401).json({ 
         success: false, 
@@ -12,16 +12,18 @@ export const AuthApi = async (req, res, next) => {
       });
     }
 
-    // Verify the token
-    const decodedTokenData = jwt.verify(token, process.env.TOKEN_SECRET);
+    // Verify the access token
+    const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
 
-    // Attach the user's ID to the request object for the next function to use
-    req.userid = decodedTokenData.id;
+    // Attach user data from the JWT payload to the request object.
+    // the JWT carries user info, so downstream
+    // handlers (like getAuthStatus) never need to hit the database.
+    req.userid = decoded.id;
+    req.userName = decoded.name;
+    req.userEmail = decoded.email;
 
-    // If verification is successful, proceed to the next function (the controller)
     next();
   } catch (error) {
-    // This catches errors from jwt.verify (e.g., invalid signature, expired token)
     console.log(error);
     return res.status(401).json({ 
       success: false, 
