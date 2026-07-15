@@ -1,19 +1,38 @@
 import mongoose from "mongoose";
 
+let connectionPromise;
+
 const connectToMongo = async () => {
-  try {
-    await mongoose.connect(process.env.MONGODB_URI);
+  if (mongoose.connection.readyState === 1) {
+    return mongoose.connection;
+  }
 
-    console.log("Successfully connected to MongoDB Atlas!");
+  if (connectionPromise) {
+    return connectionPromise;
+  }
 
-    mongoose.connection.on('error', err => {
-        console.error('MongoDB connection error after initial connection:', err);
+  if (!process.env.MONGODB_URI) {
+    throw new Error("MONGODB_URI is not configured");
+  }
+
+  connectionPromise = mongoose
+    .connect(process.env.MONGODB_URI, {
+      serverSelectionTimeoutMS: 5000,
+    })
+    .then(() => {
+      console.log("Successfully connected to MongoDB Atlas!");
+      return mongoose.connection;
+    })
+    .catch((error) => {
+      connectionPromise = undefined;
+      throw error;
     });
 
-  } catch (error) {
-    console.error("Fatal error connecting to MongoDB:", error.message);
-    process.exit(1);
-  }
+  return connectionPromise;
 };
+
+mongoose.connection.on("error", (error) => {
+  console.error("MongoDB connection error:", error);
+});
 
 export default connectToMongo;

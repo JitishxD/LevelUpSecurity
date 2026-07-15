@@ -1,6 +1,6 @@
-// Base URL of our Express backend server
-const url = "https://level-up-security.vercel.app";
-// const url = "http://localhost:3000";
+// Production requests stay on the same Vercel origin. A local backend can be
+// configured with VITE_API_URL, or defaults to localhost during Vite dev.
+const url = import.meta.env.VITE_API_URL ?? (import.meta.env.DEV ? "http://localhost:3000" : "");
 
 
 const registerUser = async (name, email, password) => {

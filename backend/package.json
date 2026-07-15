@@ -2,10 +2,10 @@
   "name": "levelupsecuritybackend",
   "version": "1.0.0",
   "description": "fa",
-  "main": "index.js",
+  "main": "src/server.js",
   "scripts": {
-    "dev": "nodemon ./index.js",
-    "start": "node ./index.js"
+    "dev": "nodemon ./src/server.js",
+    "start": "node ./src/server.js"
   },
   "type": "module",
   "author": "",
